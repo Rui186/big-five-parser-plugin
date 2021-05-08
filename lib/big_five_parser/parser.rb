@@ -1,20 +1,26 @@
 module BigFiveParser  
   class Parser
+    require 'nokogiri'
+
     def initialize(file_path, options = {})
       return unless File.file?(file_path)
 
-      @file = File.open(file_path)
-
+      @file_path = file_path
       @result = {}
       @result['NAME'] = options[:name] if options[:name].present?
       @result['EMAIL'] = options[:email] if options[:email].present?
     end
 
     def parse
-      return if @file.blank?
+      file = File.open(@file_path)
+      return if file.blank?
 
-      body_content = body_content(@file)
-      parse_content(body_content)
+      body_content = body_content(file)
+      result =  parse_content(body_content)
+
+      file.close
+
+      result
     end
 
     private
@@ -43,7 +49,7 @@ module BigFiveParser
         end
       end
 
-      @result
+      @result.to_json
     end
   end
 end
