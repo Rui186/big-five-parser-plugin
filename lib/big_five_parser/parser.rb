@@ -12,8 +12,9 @@ module BigFiveParser
     end
 
     def parse
+      return if @file_path.blank?
+
       file = File.open(@file_path)
-      return if file.blank?
 
       body_content = body_content(file)
       result =  parse_content(body_content)
@@ -30,7 +31,6 @@ module BigFiveParser
     end
 
     def parse_content(content)
-
       domain = ''
 
       content.each_line do |line|

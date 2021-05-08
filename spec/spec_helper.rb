@@ -13,7 +13,10 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-require 'spec_helper'
+require 'bundler/setup'
+Bundler.setup
+
+require 'rails'
 require 'big_five_parser'
 
 RSpec.configure do |config|
