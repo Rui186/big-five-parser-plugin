@@ -2,13 +2,13 @@ module BigFiveParser
   class Parser
     require 'nokogiri'
 
-    def initialize(file_path, options = {})
+    def initialize(file_path, name = '', email = '')
       return unless File.file?(file_path)
 
       @file_path = file_path
       @result = {}
-      @result['NAME'] = options[:name] if options[:name].present?
-      @result['EMAIL'] = options[:email] if options[:email].present?
+      @result['NAME'] = name
+      @result['EMAIL'] = email
     end
 
     def parse

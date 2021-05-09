@@ -15,12 +15,12 @@ RSpec.describe BigFiveParser::Parser do
       expect_any_instance_of(BigFiveParser::Parser).to receive(:body_content).with(@file).and_return(content)
       expect_any_instance_of(BigFiveParser::Parser).to receive(:parse_content).with(content).and_return(result)
       expect(@file).to receive(:close)
-      expect(BigFiveParser::Parser.new(@path, name: 'name', email: 'email').parse).to eq result
+      expect(BigFiveParser::Parser.new(@path, 'name', 'email').parse).to eq result
     end
 
     it 'should return nil if file not exist' do
       expect(File).to receive(:file?).with(@path).and_return(false)
-      expect(BigFiveParser::Parser.new(@path, name: 'name', email: 'email').parse).to eq nil
+      expect(BigFiveParser::Parser.new(@path, 'name', 'email').parse).to eq nil
     end
   end
 
@@ -39,6 +39,8 @@ RSpec.describe BigFiveParser::Parser do
       content = "critics, or soldiers.\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\tDomain/Facet...... Score\n\t\t\t\t\t\tAGREEABLENESS...84 \n\t\t\t\t\t\tTrust...........92 \n\t\t\t\t\t\tMorality........72 \n\t\t\t\t\t\tAltruism........57 \n\t\t\t\t\t\tCooperation.....72 \n\t\t\t\t\t\tModesty.........74 \n\t\t\t\t\t\tSympathy........63 \n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t\n\t\n\n\n\t  \n\t\t\n\t\t\t\n\t\t\t\tYour high level of"
       expect(File).to receive(:file?).with(@path).and_return(true)
       result = {
+                  "NAME":"",
+                  "EMAIL":"",
                   "AGREEABLENESS":{
                     "Overall Score":"84",
                     "Facets":{
@@ -58,6 +60,8 @@ RSpec.describe BigFiveParser::Parser do
       content = "the Extraversion domain.\n\nDomain/Facet...... Score\nNEUROTICISM..........21\nAnxiety..............73\nAnger................4\nDepression...........30\nSelf-Consciousness...58\nImmoderation.........12\nVulnerability........12\nYour score on"
       expect(File).to receive(:file?).with(@path).and_return(true)
       result = {
+                  "NAME":"",
+                  "EMAIL":"",
                   "NEUROTICISM":{
                     "Overall Score":"21",
                     "Facets":{
